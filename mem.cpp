@@ -40,7 +40,16 @@ void deleteCar(sqlite3* db){
 	sqlite3_exec(db, query.c_str(), NULL, NULL, &errMsg);
 	cout << "Car deleted!" << endl;
 }
-
+void updateCar(sqlite3* db){
+	int id; string model; int year;
+	cout <<"Enter car ID to update: "; cin >> id; cin.ignore();
+	cout <<"New model: "; getline(cin, model);
+	cout <<"New year: ";cin >>year; cin.ignore();
+	string query = "UPDATE cars SET model ='"+model+"', year = "+ to_string(year)+" WHERE id ="+ to_string(id)+";";
+	char* errMsg;
+	sqlite3_exec(db, query.c_str(), NULL, NULL, &errMsg);
+	cout <<"Car updated!"<<endl;
+}
 
 int main(){
 	sqlite3* db;
@@ -52,7 +61,8 @@ int main(){
 		cout <<"1: Add a car"<<endl;
 		cout <<"2: View all cars"<<endl;
 		cout <<"3: Delete car"<<endl;
-		cout <<"4: Exit"<<endl;
+		cout <<"4: Update car"<<endl;
+		cout <<"5: Exit"<<endl;
 		cout <<"Choice: "<<endl;
 		cin >>choice;
 		cin.ignore();
@@ -60,11 +70,12 @@ int main(){
 			case 1: addCar(db);break;
 			case 2: viewCars(db);break;
 			case 3: deleteCar(db);break;
-			case 4: cout <<"Goodbye...."<<endl;break;
+			case 4: updateCar(db);break;
+			case 5: cout <<"Goodbye...."<<endl;break;
 			default: cout <<"Invalid choice!"<<endl;
 			
 		}
-	}while(choice != 4);
+	}while(choice != 5);
 	sqlite3_close(db);
 	return 0;
 }
